@@ -9,9 +9,9 @@ services:
   web:
     build:
       context: ./api
-    command: python ./api/manage.py runserver 0.0.0.0:8000
+    command: python ./manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/code
+      - ./api:/code
     ports:
       - "8000:8000"
     depends_on:
