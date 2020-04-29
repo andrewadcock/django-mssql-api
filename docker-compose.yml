@@ -17,12 +17,7 @@ services:
       - db
   sql-server-db:
     container_name: sql-server-db
-    # image: mcr.microsoft.com/mssql/server:2019-CU3-ubuntu-16.04
     build:
       context: ./sql-server
     ports:
       - "1433:1433"
-    environment:
-      SA_PASSWORD: "nzwnVWDDC0Oj"
-      ACCEPT_EULA: "Y"
-      MSSQL_PID: "Express"
