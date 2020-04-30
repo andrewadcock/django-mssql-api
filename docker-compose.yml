@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 services:
   db:
     image: postgres
@@ -9,11 +9,11 @@ services:
   web:
     build:
       context: ./api
-    command: python ./manage.py runserver 0.0.0.0:8000
+    command: bash start.sh
     volumes:
       - ./api:/code
     ports:
-      - "8000:8000"
+      - '8000:8000'
     depends_on:
       - db
   sql-server-db:
@@ -21,4 +21,4 @@ services:
     build:
       context: ./sql-server
     ports:
-      - "1433:1433"
+      - '1433:1433'
