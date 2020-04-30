@@ -2,8 +2,8 @@
 
 ## Required Setup
 
-SCHIPAnnualReports_2019-12-19.bak placed in sql-server directory
-Default user is "admin:password123"
+- SCHIPAnnualReports_2019-12-19.bak placed in sql-server directory
+- Default user is "admin:password123"
 
 ## Notes
 
