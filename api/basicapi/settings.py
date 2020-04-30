@@ -83,6 +83,18 @@ DATABASES = {
         'PASSWORD': 'postgres',
         'HOST': 'db',
         'PORT': 5432,
+    },
+    'SCHIPAnnualReports': {
+        'ENGINE': 'sql_server.pyodbc',
+        'NAME': 'SCHIPAnnualReports',
+        'HOST': 'sql-server-db',
+        'PORT': 1433,
+        'USER': 'sa',
+        'PASSWORD': 'nzwnVWDDC0Oj',
+        'OPTIONS': {
+            'host_is_server': True,
+            'driver': 'ODBC Driver 17 for SQL Server',
+        }
     }
 }
 

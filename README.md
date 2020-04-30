@@ -10,6 +10,7 @@ Default user is "admin:password123"
 Basic Django + Postgres Framework
 
 - https://docs.docker.com/compose/django/
+- https://www.django-rest-framework.org/
 
 SQL Server
 
