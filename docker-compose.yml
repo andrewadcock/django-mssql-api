@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   db:
     image: postgres
@@ -13,7 +13,7 @@ services:
     volumes:
       - ./api:/code
     ports:
-      - '8000:8000'
+      - "8000:8000"
     depends_on:
       - db
   sql-server-db:
@@ -21,4 +21,4 @@ services:
     build:
       context: ./sql-server
     ports:
-      - '1433:1433'
+      - "1433:1433"
