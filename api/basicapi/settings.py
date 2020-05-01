@@ -93,7 +93,7 @@ DATABASES = {
         'PASSWORD': 'nzwnVWDDC0Oj',
         'OPTIONS': {
             'host_is_server': True,
-            'driver': 'ODBC Driver 17 for SQL Server',
+            'driver': 'ODBC Driver 13 for SQL Server',
         }
     }
 }
