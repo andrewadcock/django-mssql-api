@@ -429,7 +429,7 @@ class Questions(models.Model):
     endyear = models.IntegerField(db_column='EndYear', blank=True, null=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Questions'
 
 
