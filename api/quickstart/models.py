@@ -22,13 +22,13 @@ class Annualreport(models.Model):
 
 class Answers(models.Model):
     # Field name made lowercase.
-    elementid = models.OneToOneField(
+    elementid = models.ForeignKey(
         'Questionelement', models.DO_NOTHING, db_column='ElementID', primary_key=True, related_name="answersElementid")
     # Field name made lowercase.
-    statecode = models.OneToOneField(
+    statecode = models.ForeignKey(
         'States', models.DO_NOTHING, db_column='StateCode', related_name="answersStatecode")
     # Field name made lowercase.
-    programcode = models.OneToOneField(
+    programcode = models.ForeignKey(
         'Stateprograms', models.DO_NOTHING, db_column='ProgramCode')
     year = models.IntegerField(db_column='Year')  # Field name made lowercase.
     # Field name made lowercase.
@@ -411,12 +411,12 @@ class Questions(models.Model):
         db_column='QuestionNumber', max_length=10, blank=True, null=True)
     # Field name made lowercase.
     questiontext = models.CharField(
-        db_column='QuestionText', max_length=5000, blank=True, null=True)
+        db_column='QuestionText', max_length=4000, blank=True, null=True)
     # Field name made lowercase.
     leadinginstructions = models.CharField(
         db_column='LeadingInstructions', max_length=255, blank=True, null=True)
     # Field name made lowercase.
-    sectionid = models.ForeignKey(
+    sectionid = models.OneToOneField(
         'Sections', models.DO_NOTHING, db_column='SectionID', blank=True, null=True)
     # Field name made lowercase.
     sequence = models.IntegerField(db_column='Sequence', blank=True, null=True)
