@@ -538,8 +538,8 @@ class Sessionsave(models.Model):
 
 class Stateprograms(models.Model):
     # Field name made lowercase.
-    statecode = models.OneToOneField(
-        'States', models.DO_NOTHING, db_column='StateCode', related_name="stateprogramsStatecode")
+    statecode = models.ForeignKey(
+        'States', models.DO_NOTHING, primary_key=True, db_column='StateCode', related_name="stateprogramsStatecode")
     # Field name made lowercase.
     programcode = models.CharField(
         db_column='ProgramCode', max_length=100, blank=True, null=True)
