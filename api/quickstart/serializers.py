@@ -51,14 +51,13 @@ class StateprogramsSerializer(serializers.HyperlinkedModelSerializer):
 class QuestionsAnswersSerializer(serializers.HyperlinkedModelSerializer):
 
     # Set Serializers to string OR custom serializer
+    # ProgramDescription = serializers.StringRelatedField()
+    ProgramDescription = serializers.StringRelatedField()
     SectionTitle = serializers.StringRelatedField()
     QuestionText = serializers.StringRelatedField()
     QuestionId = serializers.StringRelatedField()
     QuestionNumber = serializers.StringRelatedField()
     Type1Description = serializers.StringRelatedField()
-    statename = StatesSerializer(read_only=True)
-    ProgramCode = serializers.StringRelatedField()
-    ProgramDescription = serializers.StringRelatedField()
     answertext = serializers.StringRelatedField()
     answerchoices = AnswersSerializer(read_only=True)
 
@@ -66,7 +65,7 @@ class QuestionsAnswersSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Answers
         fields = [
-            'QuestionText', 'SectionTitle', 'QuestionNumber', 'QuestionId',
-            'QuestionText', 'Type1Description', 'statename', 'ProgramCode',
-            'ProgramDescription', 'year', 'answertext', 'answerchoices']
+            'ProgramDescription', 'year', 'SectionTitle',
+            'QuestionNumber', 'QuestionText', 'Type1Description', 'QuestionId',
+            'answertext', 'answerchoices']
         depth = 4
