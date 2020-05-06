@@ -2,7 +2,7 @@
 
 ## Required Setup
 
-- SCHIPAnnualReports_2019-12-19.bak placed in sql-server directory
+- SCHIPAnnualReports.bak placed in sql-server directory
 
 ## Usage
 

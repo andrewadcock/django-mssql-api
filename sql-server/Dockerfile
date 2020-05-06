@@ -5,7 +5,7 @@ ENV MSSQL_PID Express
 USER root
 RUN apt update && apt install -y dos2unix
 RUN mkdir /var/opt/mssql/backup
-COPY ./SCHIPAnnualReports_2019-12-19.bak /var/opt/mssql/backup
+COPY ./SCHIPAnnualReports.bak /var/opt/mssql/backup
 COPY ./entrypoint.sh .
 COPY ./setup.sql .
 RUN dos2unix ./entrypoint.sh && apt-get --purge remove -y dos2unix && rm -rf /var/lib/apt/lists/

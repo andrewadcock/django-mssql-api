@@ -64,64 +64,56 @@ class StateprogramsViewSet(viewsets.ModelViewSet):
 
 
 class QuestionsAnswersViewSet(viewsets.ModelViewSet):
-    state = 'MD'
-    year = '2012'
-    queryset = Answers.objects.raw('SELECT s.SectionID, s.SectionTitle, q.QuestionID, q.QuestionText, a.ElementID \
+
+    def get_queryset(self):
+
+        # Get $_GET params
+        state = self.request.query_params.get('state', None)
+        year = self.request.query_params.get('year', None)
+
+        if state is None and year is not None:
+            queryset = Answers.objects.raw('SELECT s.SectionID, s.SectionTitle, q.QuestionID, \
+                q.QuestionNumber, q.QuestionText, a.ElementID, qe.Type1Description, qe.Sequence, \
+                a.StateCode, a.ProgramCode, sp.ProgramDescription, Year, AnswerText, AnswerChoices \
                 FROM SCHIPAnnualReports.dbo.Answers a join QuestionElement qe on qe.ElementID = a.ElementID \
                 join Questions q on q.QuestionID = qe.QuestionID \
                 join Sections s on s.SectionID = q.SectionID \
                 join StatePrograms sp on sp.ProgramCode = a.ProgramCode and sp.StateCode = a.StateCode').using("SCHIPAnnualReports")
+
+        elif state is not None and year is None:
+            queryset = Answers.objects.raw('SELECT s.SectionID, s.SectionTitle, q.QuestionID, \
+                q.QuestionNumber, q.QuestionText, a.ElementID, qe.Type1Description, qe.Sequence, \
+                a.StateCode, a.ProgramCode, sp.ProgramDescription, Year, AnswerText, AnswerChoices \
+                FROM SCHIPAnnualReports.dbo.Answers a join QuestionElement qe on qe.ElementID = a.ElementID \
+                join Questions q on q.QuestionID = qe.QuestionID \
+                join Sections s on s.SectionID = q.SectionID \
+                join StatePrograms sp on sp.ProgramCode = a.ProgramCode and sp.StateCode = a.StateCode \
+                where a.StateCode =\'' + state + '\' \
+                order by a.ElementID').using("SCHIPAnnualReports")
+
+        elif state is not None and year is not None:
+            # Create custom Query
+            queryset = Answers.objects.raw('SELECT s.SectionID, s.SectionTitle, q.QuestionID, \
+                q.QuestionNumber, q.QuestionText, a.ElementID, qe.Type1Description, qe.Sequence, \
+                a.StateCode, a.ProgramCode, sp.ProgramDescription, Year, AnswerText, AnswerChoices \
+                FROM SCHIPAnnualReports.dbo.Answers a join QuestionElement qe on qe.ElementID = a.ElementID \
+                join Questions q on q.QuestionID = qe.QuestionID \
+                join Sections s on s.SectionID = q.SectionID \
+                join StatePrograms sp on sp.ProgramCode = a.ProgramCode and sp.StateCode = a.StateCode \
+                where a.StateCode = \'' + state + '\' and Year =\'' + year + '\' \
+                order by a.ElementID').using("SCHIPAnnualReports")
+
+        else:
+            queryset = Answers.objects.raw('SELECT s.SectionID, s.SectionTitle, q.QuestionID, \
+                q.QuestionNumber, q.QuestionText, a.ElementID, qe.Type1Description, qe.Sequence, \
+                a.StateCode, a.ProgramCode, sp.ProgramDescription, Year, AnswerText, AnswerChoices \
+                FROM SCHIPAnnualReports.dbo.Answers a join QuestionElement qe on qe.ElementID = a.ElementID \
+                join Questions q on q.QuestionID = qe.QuestionID \
+                join Sections s on s.SectionID = q.SectionID \
+                join StatePrograms sp on sp.ProgramCode = a.ProgramCode and sp.StateCode = a.StateCode \
+                order by a.ElementID').using("SCHIPAnnualReports")
+
+        return queryset
+
     serializer_class = QuestionsAnswersSerializer
     permission_classes = [permissions.IsAuthenticated]
-
-#    def get_queryset(self):
-
-#         # Get $_GET params
-#         state = self.request.query_params.get('state', None)
-#         year = self.request.query_params.get('year', None)
-
-#         if state is None and year is not None:
-#             queryset = Answers.objects.raw('SELECT s.SectionID, s.SectionTitle, q.QuestionID, \
-#                 q.QuestionNumber, q.QuestionText, a.ElementID, qe.Type1Description, qe.Sequence, \
-#                 a.StateCode, a.ProgramCode, sp.ProgramDescription, Year, AnswerText, AnswerChoices \
-#                 FROM SCHIPAnnualReports.dbo.Answers a join QuestionElement qe on qe.ElementID = a.ElementID \
-#                 join Questions q on q.QuestionID = qe.QuestionID \
-#                 join Sections s on s.SectionID = q.SectionID \
-#                 join StatePrograms sp on sp.ProgramCode = a.ProgramCode and sp.StateCode = a.StateCode \
-#                 where Year =\'' + year + '\' \
-#                 order by a.ElementID').using("SCHIPAnnualReports")
-
-#         elif state is not None and year is None:
-#             queryset = Answers.objects.raw('SELECT s.SectionID, s.SectionTitle, q.QuestionID, \
-#                 q.QuestionNumber, q.QuestionText, a.ElementID, qe.Type1Description, qe.Sequence, \
-#                 a.StateCode, a.ProgramCode, sp.ProgramDescription, Year, AnswerText, AnswerChoices \
-#                 FROM SCHIPAnnualReports.dbo.Answers a join QuestionElement qe on qe.ElementID = a.ElementID \
-#                 join Questions q on q.QuestionID = qe.QuestionID \
-#                 join Sections s on s.SectionID = q.SectionID \
-#                 join StatePrograms sp on sp.ProgramCode = a.ProgramCode and sp.StateCode = a.StateCode \
-#                 where a.StateCode =\'' + state + '\' \
-#                 order by a.ElementID').using("SCHIPAnnualReports")
-
-#         elif state is not None and year is not None:
-#             # Create custom Query
-#             queryset = Answers.objects.raw('SELECT s.SectionID, s.SectionTitle, q.QuestionID, \
-#                 q.QuestionNumber, q.QuestionText, a.ElementID, qe.Type1Description, qe.Sequence, \
-#                 a.StateCode, a.ProgramCode, sp.ProgramDescription, Year, AnswerText, AnswerChoices \
-#                 FROM SCHIPAnnualReports.dbo.Answers a join QuestionElement qe on qe.ElementID = a.ElementID \
-#                 join Questions q on q.QuestionID = qe.QuestionID \
-#                 join Sections s on s.SectionID = q.SectionID \
-#                 join StatePrograms sp on sp.ProgramCode = a.ProgramCode and sp.StateCode = a.StateCode \
-#                 where a.StateCode = \'' + state + '\' and Year =\'' + year + '\' \
-#                 order by a.ElementID').using("SCHIPAnnualReports")
-
-#         else:
-#             queryset = Answers.objects.raw('SELECT s.SectionID, s.SectionTitle, q.QuestionID, \
-#                 q.QuestionNumber, q.QuestionText, a.ElementID, qe.Type1Description, qe.Sequence, \
-#                 a.StateCode, a.ProgramCode, sp.ProgramDescription, Year, AnswerText, AnswerChoices \
-#                 FROM SCHIPAnnualReports.dbo.Answers a join QuestionElement qe on qe.ElementID = a.ElementID \
-#                 join Questions q on q.QuestionID = qe.QuestionID \
-#                 join Sections s on s.SectionID = q.SectionID \
-#                 join StatePrograms sp on sp.ProgramCode = a.ProgramCode and sp.StateCode = a.StateCode \
-#                 order by a.ElementID').using("SCHIPAnnualReports")
-
-#         return queryset
