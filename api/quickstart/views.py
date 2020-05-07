@@ -78,7 +78,8 @@ class QuestionsAnswersViewSet(viewsets.ModelViewSet):
                 FROM SCHIPAnnualReports.dbo.Answers a join QuestionElement qe on qe.ElementID = a.ElementID \
                 join Questions q on q.QuestionID = qe.QuestionID \
                 join Sections s on s.SectionID = q.SectionID \
-                join StatePrograms sp on sp.ProgramCode = a.ProgramCode and sp.StateCode = a.StateCode').using("SCHIPAnnualReports")
+                join StatePrograms sp on sp.ProgramCode = a.ProgramCode and sp.StateCode = a.StateCode \
+                where Year=\'' + year + '\').using("SCHIPAnnualReports")
 
         elif state is not None and year is None:
             queryset = Answers.objects.raw('SELECT s.SectionID, s.SectionTitle, q.QuestionID, \
